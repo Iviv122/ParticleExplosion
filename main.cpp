@@ -1,15 +1,16 @@
 #include <GLFW/glfw3.h>
 #include <vector>
+#include <cmath>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 
 using namespace std;
 
-#define ScreenWidth 700
-#define ScreenHeight 700
+#define ScreenWidth 900
+#define ScreenHeight 900
 
-#define RESISTOFAIR 0.1
+#define RESISTOFAIR 0.001
 
 float scaleY = (float)1/(ScreenHeight);
 float scaleX = (float)1/(ScreenWidth);
@@ -86,7 +87,15 @@ int main(void){
 
 	for(int i=0;i<=10000;i++){
 
-		points[i].setForce(((rand() % 21)-10),((rand() % 21)-10));
+	double angle = ((rand() % 1000) / 1000.0) * 2 * M_PI;
+    
+	float speed = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX/1));
+	
+	double vx = cos(angle) * speed;
+	double vy = sin(angle) * speed;
+    
+	points[i].setForce(vx, vy);
+
 	}
 
 	if(!glfwInit()){
@@ -101,7 +110,10 @@ int main(void){
 	}
 
 	glfwMakeContextCurrent(window);
+	int a;
+	std::cin >> a;
 
+	
 	while(!glfwWindowShouldClose(window)){
 
 		glClear(GL_COLOR_BUFFER_BIT);
